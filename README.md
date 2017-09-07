@@ -9,6 +9,8 @@ These centralized websites were taken down.
 
 This alternate client uses the same underlying land data and smartcontracts for Decentraland. This desktop-based (Electron) open-source client will include AFrame and more modern web technologies in order to allow landowners to build content more seamlessly in a more light-weight format that does not depend on Unity.
 
+![](http://i.imgur.com/mmotzLwr.png)
+
 
 ## Bronze Age Client Information 
 
