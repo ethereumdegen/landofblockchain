@@ -12,7 +12,7 @@ This alternate client uses the same underlying land data and smartcontracts for 
 
 ## Bronze Age Client Information 
 
-The bronze age client is just a pre-compiled Unity scenegraph with no capacity to talk to a blockchain, IPFS, network, etc.  
+The bronze age client is just a closed source (pre-compiled??) Unity scenegraph with no desktop client and no local networking.
 
 ## Revolt Client Spec 
 
