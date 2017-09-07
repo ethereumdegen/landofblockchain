@@ -15,4 +15,4 @@ The bronze age client is just a pre-compiled Unity scenegraph with no capacity t
 
 ## Revolt Client Spec 
 
-The Revolt client will be desktop based, using Electron, and it will use AFrame to render the AFrame script that has been associated to each plot of land on IPFS (and/or other mediums such as bittorrent).  
+The Revolt client will be desktop based, using Electron, and it will use AFrame to render the AFrame script that has been associated to each plot of land on IPFS (and/or other mediums such as bittorrent and centrally hosted land nodes).  
