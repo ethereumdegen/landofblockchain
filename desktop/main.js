@@ -21,7 +21,7 @@ function createWindow () {
 
   gameWorld = new GameWorld()
 
-  webServer = new WebServer()
+  webServer = new WebServer(gameWorld)
 
   // Create the browser window.
   mainWindow = new BrowserWindow({width: 800, height: 600})

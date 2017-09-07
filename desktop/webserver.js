@@ -1,7 +1,7 @@
 
 class WebServer
 {
-  constructor()
+  constructor(gameWorld)
   {
 
 
