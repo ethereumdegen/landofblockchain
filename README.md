@@ -18,10 +18,27 @@ The bronze age client is just a pre-compiled Unity scenegraph with no capacity t
 
 The Revolt client will be desktop based, using Electron, and it will use AFrame to render the AFrame script that has been associated to each plot of land on IPFS (and/or other mediums such as bittorrent and centrally hosted land nodes).  
 
+## Running the Desktop Client   
 
-## Node 
+To clone and run this repository you'll need Git and Node.js (which comes with npm) installed on your computer. From your command line:
 
-Please see the node codebase at:
+   First, clone the repo with 
+ 
+   ```
+   https://github.com/admazzola/decentraland-revolt-web
+   ```
+   
+   Then, enter the directory for the Electron app, install required packages, and start the Node.js app
+   
+   ```
+   cd desktop
+   npm install
+   npm start
+   ```
+    
+## Server Node 
+
+Please see the server node codebase at:
 
 https://github.com/admazzola/decentraland-revolt-node
 
