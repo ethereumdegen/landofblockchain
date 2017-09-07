@@ -6,12 +6,18 @@
     <script src="/js/socket.io.js"></script>
     <script src="/js/aframe.min.js"></script>
 
+    <script src="/js/revolt-player.js"></script>
   </head>
   <body>
 
       <!-- This dom will be manipulated in real time by a steam  -->
 
-    <a-scene>
+    <a-scene id="mainScene">
+
+      <a-entity id="cam" position="0 0 5">
+        <a-camera></a-camera>
+      </a-entity>
+
       <a-entity geometry="primitive:box" position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
        <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
       <a-sky color="#ECECEC"></a-sky>
@@ -20,16 +26,6 @@
   </body>
 
 
-
-<script>
-
-  var socket = io('http://localhost:3000');
-  socket.on('connect', function (data) {
-    console.log(data);
-    socket.emit('event', { my: 'data' });
-  });
-
-</script>
 
 
 

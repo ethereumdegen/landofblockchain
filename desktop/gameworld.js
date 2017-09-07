@@ -32,21 +32,21 @@ function generateSampleData()
 
   let entity_list = []
 
-  entity_list.push({geometry:"primitive: box",material:"color:red",position:"-1 0.5 -3", rotation:"0 45 0"})
+  entity_list.push({entity_id:0, geometry:"primitive: box",material:"color:red",position:"-1 0.5 -3", rotation:"0 45 0"})
 
   result[1] = []
-  result[1][2] = {x:1,y:2,entity_list}
+  result[1][2] = {x:1,y:2,entities: entity_list}
 
   return result;
 }
 
 function initSocketServer( localTiles )
 {
-
   var server = require('http').createServer();
   var io = require('socket.io')(server);
   io.on('connection', function(client){
     client.emit('connect', { hello: 'world' });
+    client.emit('spawnEntity', localTiles[1][2].entities[0]  );
     client.on('event', function(data){
       console.log(data)
     });
