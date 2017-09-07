@@ -7,18 +7,31 @@ const BrowserWindow = electron.BrowserWindow
 const path = require('path')
 const url = require('url')
 
+const GameWorld = require('./gameworld')
+const WebServer = require('./webserver')
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
+let webServer
+let gameWorld
 
 function createWindow () {
+
+
+  gameWorld = new GameWorld()
+
+  webServer = new WebServer()
+
   // Create the browser window.
   mainWindow = new BrowserWindow({width: 800, height: 600})
 
-  // and load the index.html of the app.
+
+
+  // and load the index.html of the app.  Should load from a local webserver
   mainWindow.loadURL(url.format({
-    pathname: path.join(__dirname, 'index.html'),
-    protocol: 'file:',
+    pathname: "localhost:8181",
+    protocol: 'http:',
     slashes: true
   }))
 
@@ -52,9 +65,22 @@ app.on('activate', function () {
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) {
+
     createWindow()
+
+
   }
+
+
 })
+
+
+
+function initGameWorld()
+{
+  console.log("init game world")
+   mainWindow = {name: "Decentraland", client:"revolt"}
+}
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
