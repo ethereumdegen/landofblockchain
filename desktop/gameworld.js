@@ -18,7 +18,7 @@ class GameWorld
 
         let localTiles = [[]] // a double array.. x and y coordinates
 
-        localTiles = generateSampleData()
+        localTiles = loadSampleData()
         console.log('starting game world ')
 
         initSocketServer( localTiles );
@@ -26,19 +26,33 @@ class GameWorld
 }
 
 
-function generateSampleData()
+function loadSampleData()
 {
   let result = [[]]
 
   let entity_list = []
 
-  entity_list.push({entity_id:0, geometry:"primitive: box",material:"color:red",position:"-1 0.5 -3", rotation:"0 45 0"})
+  //entity_list.push({entity_id:0, geometry:"primitive: box",material:"color:red",position:"-1 0.5 -3", rotation:"0 45 0"})
 
   result[1] = []
-  result[1][2] = {x:1,y:2,entities: entity_list}
+  result[1][2] = {x:1,y:2,tile_data: loadSampleLandTile()}
 
   return result;
 }
+
+function loadSampleLandTile()
+{
+  var fs = require('fs');
+  var obj;
+
+  var file_path = "./public/sample_land_file.json"
+
+
+    return JSON.parse(fs.readFileSync(file_path, 'utf8'));
+
+
+}
+
 
 function initSocketServer( localTiles )
 {
@@ -46,7 +60,11 @@ function initSocketServer( localTiles )
   var io = require('socket.io')(server);
   io.on('connection', function(client){
     client.emit('connect', { hello: 'world' });
-    client.emit('spawnEntity', localTiles[1][2].entities[0]  );
+
+    console.log(localTiles[1][2])
+    client.emit('spawnEntity', localTiles[1][2].tile_data.entities[0]  );
+
+
     client.on('event', function(data){
       console.log(data)
     });
