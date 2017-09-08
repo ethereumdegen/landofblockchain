@@ -1,4 +1,4 @@
-{
+{"tile_data":{
 	"entities": [{
 		"entity_id": 0,
 		"geometry": "primitive: box",
@@ -6,4 +6,4 @@
 		"position": "-1 0.5 -3",
 		"rotation": "0 45 0"
 	}]
-}
+}}
