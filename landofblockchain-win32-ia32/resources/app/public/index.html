@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Decentraland - Revolt Client</title>
+    <script src="/js/socket.io.js"></script>
+    <script src="/js/aframe.min.js"></script>
+
+    <script src="/js/revolt-player.js"></script>
+  </head>
+  <body>
+
+      <!-- This dom will be manipulated in real time by a steam  -->
+
+    <a-scene id="mainScene">
+
+      <a-entity id="cam" position="0 0 5">
+        <a-camera></a-camera>
+      </a-entity>
+       <a-plane position="0 0 -4" rotation="-90 0 0" width="10000" height="10000" color="#7BC8A4"></a-plane>
+      <a-sky color="#ECECEC"></a-sky>
+    </a-scene>
+
+  </body>
+
+
+
+
+
+</html>
