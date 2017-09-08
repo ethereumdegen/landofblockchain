@@ -34,6 +34,9 @@ class GameWorld
   }
 }
 
+const timeout = ms => new Promise(res => setTimeout(res, ms))
+
+
 async function initWorld(localTiles)
 {
 
@@ -49,9 +52,12 @@ async function initWorld(localTiles)
     })
     var running_node = await(node.on('start', () => {}));
       console.log('waterfalls ')
+var running_node = await(node.on('ready', () => {}));
+
+await timeout(8000) //hacky
 
 
-
+  console.log('waterfallz ')
     await(loadSampleData(node,localTiles));
 
 
@@ -89,26 +95,29 @@ async function loadSampleData(ipfs_node,localTiles)
 
 }
 
+
+function apiOn(parent,event) {
+  return new Promise(resolve => {
+    parent.on(event, response => resolve(response));
+  });
+}
+
+
 async function loadIPFSLandTile(ipfs_node,multihash)
 {
 
-    var result = ''
-
-console.log('whale1')
-
-
-console.log(ipfs_node.files)
+    var result;
 
 
 console.log(multihash)
 
+/*
 try {
 
 
   ipfs_node.files.get(multihash, function (err, stream) {
   console.log('whale')
-    console.log('err')
-      console.log('stream')
+
     stream.on('data', (file) => {
       // write the file's path and contents to standard out
       console.log(file.path)
@@ -118,8 +127,67 @@ try {
 
 } catch(e) {
   throw e.message;
-}
- 
+}*/
+
+
+console.log("cat1")
+
+
+
+  var prom = ipfs_node.files.get(multihash,function (err, stream){
+    console.log('whale1')
+
+
+    stream.on('data', (file) => {
+     // write the file's path and contents to standard out
+     console.log(file.path)
+     console.log('getting data of file ')
+     file.content.pipe(process.stdout)
+
+
+   }),
+    stream.on('end', (file) => {
+
+      console.log('final output ' + file);
+
+      result = file;
+      return result;
+   })
+
+
+  });
+  console.log(prom) //this is a promise with a stream inside
+
+
+
+
+
+
+  let sha1sum = await prom;
+  console.log('result')
+  console.log(result)
+
+/*
+    var cat =   await ipfs_node.files.cat(multihash, function (err, stream) {
+         stream.on('data', (file) => {
+          // write the file's path and contents to standard out
+          console.log(file.path)
+          console.log('getting data of file ')
+          file.content.pipe(process.stdout)
+
+
+        }),
+         stream.on('end', (file) => {
+
+           console.log('final output ' + file);
+
+           result = file;
+        }
+    )
+  })*/
+
+    return result;
+
 
 }
 
