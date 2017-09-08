@@ -3,7 +3,7 @@ let localPlayer = {}
 
   spawnPlayer(localPlayer)
 
-  var socket = io('http://localhost:3000');
+  var socket = io('http://localhost:3010');
   socket.on('connect', function (data) {
     console.log(data);
     socket.emit('event', { player: localPlayer });

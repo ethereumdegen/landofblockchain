@@ -20,6 +20,7 @@ node.on('ready', () => {
 
     console.log('NODE READY')
 
+  /*
         const files = [
       {
         path: '/public/sample_land_file.json',
@@ -27,11 +28,11 @@ node.on('ready', () => {
       }
     ]
 
-    node.files.add(files, function (err, files) {
+  node.files.add(files, function (err, files) {
       // 'files' will be an array of objects
       console.log('meep1')
         console.log(files)
-    })
+    })*/
 
 
 /*
@@ -50,41 +51,6 @@ THIS WORKS
 */
 
 
-    node.files.cat("Qmc5LfkMVAhvzip2u2RjRBRhgVthtSokHsz4Y5bgaBCW2R", function (err, filestream) {
-        console.log('err')
-        console.log(err)
-
-
-
-          console.log('WHY ISNT CAT FIRING ')
-        console.log(filestream)
-
-        console.log(os.tmpdir())
-
-
-        if (!fs.existsSync(os.tmpdir() + '/lobc_cache')){
-          fs.mkdirSync(os.tmpdir() + '/lobc_cache');
-        }
-
-        var wstream =  fs.createWriteStream(os.tmpdir() + '/lobc_cache/'+'Qmc5LfkMVAhvzip2u2RjRBRhgVthtSokHsz4Y5bgaBCW2R');
-
-
-
-        result   = '';
-
-
-          wstream.on('finish', function() {
-           console.log('Written ' + wstream.bytesWritten + ' ' + wstream.path);
-             filestream.close()
-          });
-
-
-                filestream.pipe(wstream);
-
-              //  wstream.end();
-  // file will be a stream containing the data of the file requested
-    })
-
 
 
 
@@ -99,4 +65,42 @@ THIS WORKS
 node.on('start', () => {
 
   console.log('NODE START')
+
+  node.files.cat("Qmc5LfkMVAhvzip2u2RjRBRhgVthtSokHsz4Y5bgaBCW2R", function (err, filestream) {
+      console.log('err')
+      console.log(err)
+
+
+
+        console.log('WHY ISNT CAT FIRING ')
+      console.log(filestream)
+
+
+/*
+      console.log(os.tmpdir())
+
+
+      if (!fs.existsSync(os.tmpdir() + '/lobc_cache')){
+        fs.mkdirSync(os.tmpdir() + '/lobc_cache');
+      }
+
+      var wstream =  fs.createWriteStream(os.tmpdir() + '/lobc_cache/'+'Qmc5LfkMVAhvzip2u2RjRBRhgVthtSokHsz4Y5bgaBCW2R');
+
+
+
+      result   = '';
+
+
+        wstream.on('finish', function() {
+         console.log('Written ' + wstream.bytesWritten + ' ' + wstream.path);
+           filestream.close()
+        });
+
+
+              filestream.pipe(wstream);
+          */
+  })
+
+
+
 })

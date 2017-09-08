@@ -2,8 +2,14 @@
 	"entities": [{
 		"entity_id": 0,
 		"geometry": "primitive: box",
-		"material": "color:red",
+		"material": "color:blue",
 		"position": "-1 0.5 -3",
 		"rotation": "0 45 0"
+	},{
+		"entity_id": 1,
+		"geometry": "primitive: box",
+		"material": "color:blue",
+		"position": "-1 2.5 -3",
+		"rotation": "0 0 0"
 	}]
 }}

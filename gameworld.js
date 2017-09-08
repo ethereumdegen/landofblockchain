@@ -54,7 +54,7 @@ async function initWorld(localTiles)
       console.log('waterfalls ')
 var running_node = await(node.on('ready', () => {}));
 
-await timeout(8000) //hacky
+await timeout(1000) //hacky
 
 
   console.log('waterfallz ')
@@ -215,13 +215,12 @@ function initSocketServer( localTiles )
     console.log(localTiles[1][2])
     client.emit('spawnEntity', localTiles[1][2].tile_data.entities[0]  );
 
-
     client.on('event', function(data){
       console.log(data)
     });
     client.on('disconnect', function(){});
   });
-  server.listen(3000);
+  server.listen(3010);
 
 }
 

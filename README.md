@@ -1,12 +1,12 @@
- 
+
 
 # Land of Blockchain ⚡  Client
- 
+
 
 This alternate client uses the same underlying land data and smartcontracts for Decentraland. This desktop-based (Electron) open-source client will include AFrame and more modern web technologies in order to allow landowners to build content more seamlessly in a more light-weight format that does not depend on Unity.
 
 ![](http://i.imgur.com/mmotzLwr.png)
- 
+
 
 The Revolt client will be desktop based, using Electron, and it will use AFrame to render the AFrame script that has been associated to each plot of land on IPFS (and/or other mediums such as bittorrent and centrally hosted land nodes).  All 3D Models will use the glTF format. https://www.khronos.org/gltf
 
@@ -38,3 +38,11 @@ https://github.com/admazzola/decentraland-revolt-node
 ## Learning AFrame
 
 https://aframe.io/aframe-school/#/1
+
+
+
+If you have issues with leveldown:
+
+https://stackoverflow.com/questions/42616008/node-module-version-conflict-when-installing-modules-for-electron
+
+ ./node_modules/.bin/electron-rebuild
