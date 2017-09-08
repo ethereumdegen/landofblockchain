@@ -22,7 +22,8 @@ node.on('ready', () => {
 
         const files = [
       {
-        path: '/public/sample_land_file.json'
+        path: '/public/sample_land_file.json',
+        content:  fs.readFileSync( path.join(__dirname, '.', '/public/sample_land_file.json') ) // Buffer.from('some data')
       }
     ]
 
@@ -33,10 +34,29 @@ node.on('ready', () => {
     })
 
 
+/*
+THIS WORKS
+    var test_rstream = fs.createReadStream( path.join(__dirname, '.', '/public/sample_land_file.json') )
+    var wstream =  fs.createWriteStream(os.tmpdir() + '/lobc_cache/'+'Qmc5LfkMVAhvzip2u2RjRBRhgVthtSokHsz4Y5bgaBCW2R');
 
-    node.files.cat("QmUNLLsPACCz1vLxQVkXqqLX5R1X345qqfHbsf67hvA3Nn", function (err, filestream) {
-      console.log(err)
-          console.log('mee2')
+
+      wstream.on('finish', function() {
+       console.log('Written ' + wstream.bytesWritten + ' ' + wstream.path);
+         test_rstream.close()
+      });
+
+       test_rstream.pipe(wstream);
+
+*/
+
+
+    node.files.cat("Qmc5LfkMVAhvzip2u2RjRBRhgVthtSokHsz4Y5bgaBCW2R", function (err, filestream) {
+        console.log('err')
+        console.log(err)
+
+
+
+          console.log('WHY ISNT CAT FIRING ')
         console.log(filestream)
 
         console.log(os.tmpdir())
@@ -46,37 +66,28 @@ node.on('ready', () => {
           fs.mkdirSync(os.tmpdir() + '/lobc_cache');
         }
 
-        var wstream =  fs.createWriteStream(os.tmpdir() + '/lobc_cache/'+'QmUNLLsPACCz1vLxQVkXqqLX5R1X345qqfHbsf67hvA3Nn');
+        var wstream =  fs.createWriteStream(os.tmpdir() + '/lobc_cache/'+'Qmc5LfkMVAhvzip2u2RjRBRhgVthtSokHsz4Y5bgaBCW2R');
 
 
 
         result   = '';
 
 
-        wstream.on('data', function(data) {
-            data += data;
-          });
-
           wstream.on('finish', function() {
            console.log('Written ' + wstream.bytesWritten + ' ' + wstream.path);
-          });
-
-          filestream.on('data', function(chunk) {
-            result += chunk;
-                console.log(result );
-          });
-
-          filestream.on('end', function () {
-          // do something with "result"
-          console.log(result)
+             filestream.close()
           });
 
 
                 filestream.pipe(wstream);
 
-                wstream.end();
+              //  wstream.end();
   // file will be a stream containing the data of the file requested
     })
+
+
+
+
 
   // stopping a node
   node.stop(() => {
