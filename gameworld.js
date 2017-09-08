@@ -213,7 +213,14 @@ function initSocketServer( localTiles )
     client.emit('connect', { hello: 'world' });
 
     console.log(localTiles[1][2])
-    client.emit('spawnEntity', localTiles[1][2].tile_data.entities[0]  );
+
+    let entities_count = localTiles[1][2].tile_data.entities.length;
+
+    localTiles[1][2].tile_data.entities.forEach(function(element) {
+      client.emit('spawnEntity', element  );
+
+    });
+
 
     client.on('event', function(data){
       console.log(data)
