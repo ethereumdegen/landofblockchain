@@ -40,9 +40,14 @@ https://github.com/admazzola/decentraland-revolt-node
 https://aframe.io/aframe-school/#/1
 
 
-
+## Troubleshooting
 If you have issues with leveldown:
 
 https://stackoverflow.com/questions/42616008/node-module-version-conflict-when-installing-modules-for-electron
 
  ./node_modules/.bin/electron-rebuild
+
+
+ ## if you have issues with node-gyp:  (https://github.com/websockets/bufferutil/issues/25)
+Make sure 'node' is symlinked correctly
+sudo ln -s "$(which nodejs)" /usr/bin/node

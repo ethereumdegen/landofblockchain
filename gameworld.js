@@ -64,8 +64,6 @@ await timeout(1000) //hacky
     console.log('starting game world ')
    var socketServ = await(initSocketServer( localTiles ));
 
-
-
 }
 
 
@@ -200,6 +198,21 @@ async function loadSampleLandTile()
 
 
     return JSON.parse(fs.readFileSync(file_path, 'utf8'));
+
+
+}
+
+
+function downloadAndCacheIPFSFile()
+{
+
+  let temp_dir = (os.tmpdir() + '/lobc_cache/');
+
+  fs.readdir(testFolder, (err, files) => {
+    files.forEach(file => {
+      console.log(file);
+    });
+  })
 
 
 }
