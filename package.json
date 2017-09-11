@@ -1,7 +1,7 @@
 {
-  "name": "electron-quick-start",
+  "name": "Land Of Blockchain Client",
   "version": "1.0.0",
-  "description": "A minimal Electron application",
+  "description": "Your decentralized World",
   "main": "main.js",
   "scripts": {
     "start": "electron ."
@@ -24,6 +24,7 @@
   "dependencies": {
     "asyncawait": "^1.0.6",
     "ipfs": "^0.25.4",
+    "js-ipfs": "0.25.2",
     "live-server": "^1.2.0",
     "socket.io": "^2.0.3"
   }
