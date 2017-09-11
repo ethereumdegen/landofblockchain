@@ -1,5 +1,5 @@
 {
-  "name": "Land Of Blockchain Client",
+  "name": "land_of_blockchain_client",
   "version": "1.0.0",
   "description": "Your decentralized World",
   "main": "main.js",
@@ -24,7 +24,6 @@
   "dependencies": {
     "asyncawait": "^1.0.6",
     "ipfs": "^0.25.4",
-    "js-ipfs": "0.25.2",
     "live-server": "^1.2.0",
     "socket.io": "^2.0.3"
   }

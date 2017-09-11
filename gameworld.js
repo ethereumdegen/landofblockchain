@@ -203,7 +203,7 @@ async function loadSampleLandTile()
 }
 
 
-function downloadAndCacheIPFSFile()
+function downloadAndCacheIPFSFile(multihash)
 {
 
   let temp_dir = (os.tmpdir() + '/lobc_cache/');
