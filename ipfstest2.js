@@ -27,11 +27,15 @@ node.on('ready', () => {
   }
 ]
 
+
+/*
 node.files.add(files, function (err, files) {
   // 'files' will be an array of objects
   console.log('meep1')
     console.log(files)
 })
+
+*/
 
 
 
@@ -49,7 +53,7 @@ node.files.cat("QmaF9f8ifiRbefogmdnpvTsjWQ9oMaoPnEJWUaVBjaJbuu", function (err, 
 
     wstream.on('finish', function() {
      console.log('Written ' + wstream.bytesWritten + ' ' + wstream.path);
-       filestream.close() ;
+       wstream.close() ;
     });
 
      filestream.pipe(wstream);
