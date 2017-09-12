@@ -2,7 +2,12 @@
 const IPFS = require('ipfs')
 const path = require('path')
 const os = require('os')
+const fs = require('fs')
 
+
+
+let assetModelPaths = []
+let localTiles = [[]]
 
 class GameWorld
 {
@@ -21,23 +26,51 @@ class GameWorld
   constructor()
   {
 
-        let localTiles = [[]] // a double array.. x and y coordinates
+
+        assetModelPaths = findAssetModelPaths()
+
+
+
+        localTiles = [[]] // a double array.. x and y coordinates
 
 
 
 
 
-          initWorld(localTiles);
+          initWorld(localTiles,assetModelPaths);
 
 
 
   }
 }
 
+
+
+function findAssetModelPaths()
+{
+
+        let assets_path = path.resolve(__dirname, '.', 'assets');
+
+        let models_path = assets_path + "/" + "models"
+
+        const { lstatSync, readdirSync } = require('fs')
+        const { join } = require('path')
+
+        const isDirectory = source => lstatSync(source).isDirectory()
+        const getDirectories = source =>
+          readdirSync(source).map(name => join(source, name)).filter(isDirectory)
+
+        let directory_list = getDirectories(models_path);
+
+
+        return directory_list;
+}
+
+
 const timeout = ms => new Promise(res => setTimeout(res, ms))
 
 
-async function initWorld(localTiles)
+async function initWorld(localTiles,assetModelPaths)
 {
 
   const node = new IPFS({
@@ -58,16 +91,16 @@ await timeout(1000) //hacky
 
 
   console.log('waterfallz ')
-    await(loadSampleData(node,localTiles));
+    await(loadSampleTileData(node,localTiles));
 
 
     console.log('starting game world ')
-   var socketServ = await(initSocketServer( localTiles ));
+   var socketServ = await(initSocketServer( localTiles , assetModelPaths ));
 
 }
 
 
-async function loadSampleData(ipfs_node,localTiles)
+async function loadSampleTileData(ipfs_node,localTiles)
 {
 
 
@@ -76,9 +109,21 @@ async function loadSampleData(ipfs_node,localTiles)
 
   localTiles[1] = []
 
+  var has_file_cached = hasJSONFileCachedLocally("QmaF9f8ifiRbefogmdnpvTsjWQ9oMaoPnEJWUaVBjaJbuu")
+
+  console.log('has files cached')
+  console.log(has_file_cached)
+
+  if(!has_file_cached)
+  {
+    var downloaded_file = await(downloadAndCacheIPFSFile(ipfs_node,"QmaF9f8ifiRbefogmdnpvTsjWQ9oMaoPnEJWUaVBjaJbuu"));
+  }
+
+    var parsed_data = await( parseJSONFileFromCache("QmaF9f8ifiRbefogmdnpvTsjWQ9oMaoPnEJWUaVBjaJbuu") )
+
       console.log("load ipfs tile ")
-    //  var sample_tile_data = await (loadIPFSLandTile(ipfs_node,"Qmc5LfkMVAhvzip2u2RjRBRhgVthtSokHsz4Y5bgaBCW2R"));
-    var sample_tile_data = await (loadSampleLandTile(ipfs_node,"Qmc5LfkMVAhvzip2u2RjRBRhgVthtSokHsz4Y5bgaBCW2R"));
+     var sample_tile_data = parsed_data;
+  //  var sample_tile_data = await (loadSampleLandTile(ipfs_node,"Qmc5LfkMVAhvzip2u2RjRBRhgVthtSokHsz4Y5bgaBCW2R"));
    localTiles[1][2] = sample_tile_data
 
 
@@ -101,7 +146,7 @@ function apiOn(parent,event) {
 }
 
 
-async function loadIPFSLandTile(ipfs_node,multihash)
+async function downloadAndCacheIPFSFile(ipfs_node,multihash,callback)
 {
 
     var result;
@@ -109,80 +154,30 @@ async function loadIPFSLandTile(ipfs_node,multihash)
 
 console.log(multihash)
 
-/*
-try {
+var wstream =  fs.createWriteStream(os.tmpdir() + '/lobc_cache/'+multihash);
 
-
-  ipfs_node.files.get(multihash, function (err, stream) {
-  console.log('whale')
-
-    stream.on('data', (file) => {
-      // write the file's path and contents to standard out
-      console.log(file.path)
-      file.content.pipe(process.stdout)
-    })
-  })
-
-} catch(e) {
-  throw e.message;
-}*/
-
-
-console.log("cat1")
+var promise = ipfs_node.files.cat(multihash, function (err, filestream) {
+    console.log('err')
+    console.log(err)
 
 
 
-  var prom = ipfs_node.files.get(multihash,function (err, stream){
-    console.log('whale1')
+    wstream.on('finish', function() {
+     console.log('Written ' + wstream.bytesWritten + ' ' + wstream.path);
+       wstream.close() ;
+    });
 
-
-    stream.on('data', (file) => {
-     // write the file's path and contents to standard out
-     console.log(file.path)
-     console.log('getting data of file ')
-     file.content.pipe(process.stdout)
-
-
-   }),
-    stream.on('end', (file) => {
-
-      console.log('final output ' + file);
-
-      result = file;
-      return result;
-   })
-
-
-  });
-  console.log(prom) //this is a promise with a stream inside
+     filestream.pipe(wstream);
 
 
 
-
-
+})
 
   let sha1sum = await prom;
   console.log('result')
   console.log(result)
 
-/*
-    var cat =   await ipfs_node.files.cat(multihash, function (err, stream) {
-         stream.on('data', (file) => {
-          // write the file's path and contents to standard out
-          console.log(file.path)
-          console.log('getting data of file ')
-          file.content.pipe(process.stdout)
 
-
-        }),
-         stream.on('end', (file) => {
-
-           console.log('final output ' + file);
-
-           result = file;
-        }
-    )
-  })*/
 
     return result;
 
@@ -203,7 +198,40 @@ async function loadSampleLandTile()
 }
 
 
-function downloadAndCacheIPFSFile(multihash)
+ function hasJSONFileCachedLocally(multihash)
+{
+
+    let temp_dir = (os.tmpdir() + '/lobc_cache/');
+      let filename = (temp_dir + multihash );
+
+    var fs = require('fs');
+    if (fs.existsSync(filename)) {
+      return true
+    }
+
+    return false
+
+}
+
+
+async function parseJSONFileFromCache(multihash)
+{
+  let temp_dir = (os.tmpdir() + '/lobc_cache/');
+  let filename = (temp_dir + multihash );
+
+  let result = require('fs').readFileSync(filename, 'utf8');
+
+  console.log('my result ')
+  console.log(result)
+
+  let data  = JSON.parse(result);
+
+  return data;
+
+}
+
+/*
+async function getFilesFromDirectory(multihash)
 {
 
   let temp_dir = (os.tmpdir() + '/lobc_cache/');
@@ -218,7 +246,24 @@ function downloadAndCacheIPFSFile(multihash)
 }
 
 
-function initSocketServer( localTiles )
+function downloadAndCacheIPFSFile(multihash)
+{
+
+  let temp_dir = (os.tmpdir() + '/lobc_cache/');
+
+  fs.readdir(testFolder, (err, files) => {
+    files.forEach(file => {
+      console.log(file);
+    });
+  })
+
+
+}*/
+
+
+
+
+function initSocketServer( localTiles, assetModelPaths )
 {
   var server = require('http').createServer();
   var io = require('socket.io')(server);
@@ -227,9 +272,17 @@ function initSocketServer( localTiles )
 
     console.log(localTiles[1][2])
 
+
+    assetModelPaths.forEach(function(element)
+    {
+      client.emit('registerModel', element)
+    });
+
+
     let entities_count = localTiles[1][2].tile_data.entities.length;
 
-    localTiles[1][2].tile_data.entities.forEach(function(element) {
+    localTiles[1][2].tile_data.entities.forEach(function(element)
+    {
       client.emit('spawnEntity', element  );
 
     });

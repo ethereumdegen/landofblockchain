@@ -48,6 +48,9 @@ https://stackoverflow.com/questions/42616008/node-module-version-conflict-when-i
  ./node_modules/.bin/electron-rebuild
 
 
+ npm rebuild 
+
+
  ## if you have issues with node-gyp:  (https://github.com/websockets/bufferutil/issues/25)
 Make sure 'node' is symlinked correctly
 sudo ln -s "$(which nodejs)" /usr/bin/node

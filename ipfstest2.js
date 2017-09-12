@@ -27,19 +27,22 @@ node.on('ready', () => {
   }
 ]
 
+let add_file = true
 
-/*
-node.files.add(files, function (err, files) {
-  // 'files' will be an array of objects
-  console.log('meep1')
-    console.log(files)
-})
+if(add_file)
+{
 
-*/
+  node.files.add(files, function (err, files) {
+    // 'files' will be an array of objects
+    console.log('meep1')
+      console.log(files)
+  })
 
 
+}
 
-var wstream =  fs.createWriteStream(os.tmpdir() + '/lobc_cache/'+'Qmc5LfkMVAhvzip2u2RjRBRhgVthtSokHsz4Y5bgaBCW2R');
+
+var wstream =  fs.createWriteStream(os.tmpdir() + '/lobc_cache/'+'QmaF9f8ifiRbefogmdnpvTsjWQ9oMaoPnEJWUaVBjaJbuu');
 
 node.files.cat("QmaF9f8ifiRbefogmdnpvTsjWQ9oMaoPnEJWUaVBjaJbuu", function (err, filestream) {
     console.log('err')
