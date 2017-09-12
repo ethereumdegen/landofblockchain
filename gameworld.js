@@ -154,13 +154,18 @@ async function downloadAndCacheIPFSFile(ipfs_node,multihash,callback)
 
 console.log(multihash)
 
+
+//when the file isnt on IPFS this causes an  unhandled promise error- we should properly handle it 
 var wstream =  fs.createWriteStream(os.tmpdir() + '/lobc_cache/'+multihash);
 
 var promise = ipfs_node.files.cat(multihash, function (err, filestream) {
     console.log('err')
     console.log(err)
 
-
+    wstream.on('error', function() {
+     console.log('w error');
+       wstream.close() ;
+    });
 
     wstream.on('finish', function() {
      console.log('Written ' + wstream.bytesWritten + ' ' + wstream.path);
@@ -173,7 +178,14 @@ var promise = ipfs_node.files.cat(multihash, function (err, filestream) {
 
 })
 
-  let sha1sum = await prom;
+
+/*
+  let sha1sum = await prom.catch(function(reason) {
+     console.log('promise catch')
+     console.log(reason)
+  });
+  */
+
   console.log('result')
   console.log(result)
 
